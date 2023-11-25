@@ -1,0 +1,20 @@
+name: INT
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: connect and deploy
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: 18.197.110.129
+          username: ubuntu
+          key: ${{ secrets.KEY }}
+          script: |
+            cd oshxona/
+            git pull
+            sudo systemctl restart gunicorn.socket gunicorn.service
